@@ -1,60 +1,66 @@
-Scalable Web Scraping Pipeline
+🚀 Scalable Web Scraping Pipeline
 
 📌 Overview
 
-This project is a scalable and modular web scraping pipeline developed to extract verified email addresses from company websites listed on the Europages directory. It was built as part of a challenge to demonstrate the ability to design a flexible scraping framework for lead generation.
+This project is a modular and scalable web scraping pipeline designed to extract verified email addresses from company websites listed on the Europages directory. It was developed as part of a challenge to showcase the ability to build a flexible, industry-specific lead generation system using intelligent scraping techniques.
 
-🚀 Workflow
+🔄 Workflow
 
-The pipeline targets a specific sector (e.g., wines) and filters suppliers by supplier type (e.g., producers). The main steps are:
+The pipeline focuses on a selected sector (e.g., wines) and filters by supplier type (e.g., producers). The steps are:
 
-Directory Scraping:
-Navigate to the Europages search results.
-Extract company names and corresponding detail page links.
-Website Extraction:
-Visit each company’s detail page.
-Retrieve the company's official website URL.
-Email Extraction:
-Visit each website and attempt to extract valid email addresses from the homepage or linked contact pages.
-Data Cleaning and Saving:
-Store the structured output in CSV format.
-Skip companies with no valid website.
+🧩 1. Directory Scraping
+Navigate to Europages search results.
+Extract company names and their detail page links.
+🌐 2. Website Extraction
+Visit each company's profile page.
+Retrieve the official website URL if available.
+📧 3. Email Extraction
+Visit each company’s website.
+Extract email addresses from the homepage or relevant subpages (e.g., Contact, About Us).
+🧹 4. Data Cleaning & Storage
+Clean and validate extracted data.
+Store the results in well-structured CSV files.
+Skip companies with missing or invalid websites to avoid None values.
 ⚠️ Challenges Faced
 
-1. Website Extraction
-Some companies did not provide website links on Europages.
-Some provided invalid or broken links.
-These companies were skipped to maintain data quality and avoid storing None values.
-2. Email Extraction
-Some websites do not list email addresses at all.
-Manual verification confirmed that in some cases, the absence of email was intentional.
-Many websites use pop-ups like “Accept Cookies” or age verification gates, which block the content until interacted with.
-Some pop-ups were manageable, but others were in foreign languages (e.g., accepto instead of accept), making detection and interaction challenging.
-A potential improvement could involve using an LLM to dynamically recognize and handle multi-language pop-ups.
-On some websites, email addresses were hidden in subpages like Contact or About Us.
-While some of these pages were handled, different language/localization terms for these pages posed an additional barrier.
-Again, an LLM could help infer semantically similar navigation options across languages.
+🔗 Website Extraction
+Some companies do not provide website links.
+Others link to broken or invalid websites.
+These entries were skipped to ensure data integrity.
+📭 Email Extraction
+Some websites do not list email addresses at all — verified manually.
+Pop-ups such as cookie consent or age verification gates often block access.
+Many pop-ups were in local languages (e.g., "accepto" instead of "accept"), making automation harder.
+Handling these systematically would require more sophisticated logic or language models.
+Email addresses are often hidden in subpages (Contact, About Us), and their naming varies across languages.
+Keyword matching handled some of them, but language-specific variations posed limitations.
 🧠 Design Considerations
 
-The codebase is modular and scalable, allowing easy updates and reuse.
-Functionality is split into methods for readability and maintenance.
-Configuration values are centralized using a config.py file for better flexibility.
-🗃️ Output
+✅ Modular Design: Logic split across reusable, clear methods.
+🔁 Scalable Architecture: Easily extensible for new sectors or directories.
+⚙️ Configuration File (config.py): For customizable sector names, filters, and constants.
+🧪 Debugging-Friendly: Step-by-step logs and manageable function boundaries.
+🗃️ Output Format
 
-The final output is a CSV file with the following columns:
+Two CSV outputs per sector:
 
-A two-part CSV dataset per sector:
-
-1. `links_<sector>.csv` → List of company profile URLs
-2. `emails_<sector>.csv` → List of emails with company names and countries (when available)
-
-Companies without valid websites are excluded from the CSV.
-
+links_<sector>.csv
+→ Contains company names and their Europages profile URLs.
+emails_<sector>.csv
+→ Contains company names, countries, websites, and extracted emails.
+Companies without valid websites or emails are excluded from the final CSVs.
 🧩 What Could Be Improved
 
-Performance Optimization:
-The current implementation works reliably, but performance can be enhanced. Techniques such as asynchronous requests or concurrent scraping with threading or multiprocessing could significantly reduce runtime, especially for large-scale data collection.
-Advanced Popup Handling:
-Some websites present cookie consent forms or age verification popups in various languages or formats. While some were handled, a more comprehensive and multilingual solution could be developed—potentially by integrating a language-aware Large Language Model (LLM) or using heuristic-based UI interaction patterns.
-Better Subpage Detection:
-Emails are often hidden in subpages like "Contact", "About Us", or local-language equivalents. While a keyword-based approach was used, some were missed due to language or structural differences. A semantic component recognition system or an LLM-based link predictor could improve this.
+🚅 1. Performance Optimization
+Current scraping is sequential and could be sped up using:
+Async I/O (aiohttp, asyncio)
+Multithreading / Multiprocessing
+Particularly useful when scaling to hundreds or thousands of companies.
+🧠 2. Smarter Popup Handling
+Some websites show pop-ups in different languages or unexpected formats.
+A language-aware LLM or customized popup detector could help:
+Detect and dismiss consent dialogs, age gates, and modal overlays more reliably.
+🔍 3. Robust Subpage Detection
+Email addresses are often on pages like "Contact Us", "Über Uns", "Contatti", etc.
+Current logic uses keyword matching — but:
+Using semantic analysis or an LLM-based classifier could improve accuracy and multilingual support.
