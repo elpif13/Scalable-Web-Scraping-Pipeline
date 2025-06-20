@@ -59,10 +59,10 @@ The pipeline focuses on a selected **sector** (e.g., `wines`) and filters by **s
 
 Two CSV outputs per sector:
 
-- `links_<sector>.csv` → Contains company names and their Europages profile URLs.
-- `emails_<sector>.csv` → Contains company names, countries, websites, and extracted emails.
+- `links_<sector>.csv` → Contains company names and their website URLs.
+- `emails_<sector>.csv` → Contains company names, countries, and extracted emails.
 
-> Companies without valid websites or emails are excluded from the final CSVs.
+> Companies without valid **websites** are excluded from the final CSVs.
 
 ---
 
